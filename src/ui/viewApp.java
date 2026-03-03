@@ -64,9 +64,31 @@ public class viewApp {
     private JPanel seniorPanel = new JPanel();
     private JLabel seniorTitle = new JLabel("Senior");
 
+        //Senior Status Label
+        private JLabel seniorStatusLabel = new JLabel("Status");
+
+        //Senior Status 
+
+        //Switch to Family Button
+        private JButton toFamily = new JButton("Open Family Panel");
+        public JButton getToFamily() {
+            return toFamily;
+        }
+
+
     //Caregiver/Family Alerts Panel
     private JPanel familyPanel = new JPanel();
     private JLabel familyTitle = new JLabel("Family");
+
+        //Family History
+        private JLabel alertHistoryLabel = new JLabel("Alert History");
+        private JTable alertHistory = new JTable()
+
+        //Switch to Senior Button
+        private JButton toSenior = new JButton("Open Senior Panel");
+        public JButton getToSenior() {
+            return toSenior;
+        }
 
     public viewApp() {
         // Main Frame

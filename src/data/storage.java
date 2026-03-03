@@ -49,7 +49,7 @@ public class storage {
         }
     }
 
-    public boolean checkLogin(String inputUsername, char[] inputPassword) throws IOException {
+    public int checkLogin(String inputUsername, char[] inputPassword) throws IOException {
         try(BufferedReader br = new BufferedReader(new FileReader("login.txt"))) {
 
             while ((line = br.readLine()) != null) {
@@ -68,10 +68,10 @@ public class storage {
                 String storedPassword = half[2];
 
                 if (storedUsername.equals(inputUsername) && storedPassword.equals(new String(inputPassword))) {
-                    return true;
+                    return Integer.parseInt(half[0]);
                 }
             }
         }
-        return false;
+        return -1;
     }
 }

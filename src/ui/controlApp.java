@@ -69,7 +69,9 @@ public class controlApp {
                 enteredPassword = view.passwordInput.getPassword();
 
                 try {
-                    if (store.checkLogin(enteredUsername, enteredPassword)) {
+                    int userId = store.checkLogin(enteredUsername, enteredPassword);
+
+                    if (userId != -1) {
                         view.showSeniorPanel();
                     }
                     
