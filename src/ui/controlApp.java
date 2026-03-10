@@ -78,7 +78,6 @@ public class controlApp {
                 } catch(IOException exception) {
                     exception.printStackTrace();
                 }
-
             }
         });
     }

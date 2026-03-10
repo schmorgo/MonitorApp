@@ -64,10 +64,18 @@ public class viewApp {
     private JPanel seniorPanel = new JPanel();
     private JLabel seniorTitle = new JLabel("Senior");
 
-        //Senior Status Label
+        //Senior Status Labels
         private JLabel seniorStatusLabel = new JLabel("Status");
+        private JLabel waterPressureLabel = new JLabel("Water Pressure Status");
+        private JLabel waterFlowLabel = new JLabel("Water Flow Status");
+        private JLabel voltageLabel = new JLabel("Voltage Status");
+        private JLabel currentLabel = new JLabel("Amperes Status");
 
-        //Senior Status 
+        //Senior Status Statuses
+        private JCheckBox waterPressureStatus = new JCheckBox();
+        private JCheckBox waterFlowStatus = new JCheckBox();
+        private JCheckBox voltageStatus = new JCheckBox();
+        private JCheckBox currentStatus = new JCheckBox();
 
         //Switch to Family Button
         private JButton toFamily = new JButton("Open Family Panel");
@@ -75,6 +83,11 @@ public class viewApp {
             return toFamily;
         }
 
+        //Simulate Senior Panel
+        private JButton simulateSenior = new JButton("Simulate");
+        public JButton getSimulateSenior() {
+            return simulateSenior;
+        }
 
     //Caregiver/Family Alerts Panel
     private JPanel familyPanel = new JPanel();
@@ -82,12 +95,18 @@ public class viewApp {
 
         //Family History
         private JLabel alertHistoryLabel = new JLabel("Alert History");
-        private JTable alertHistory = new JTable()
+        private JTable alertHistory = new JTable();
 
         //Switch to Senior Button
         private JButton toSenior = new JButton("Open Senior Panel");
         public JButton getToSenior() {
             return toSenior;
+        }
+
+        //Simulate Family Panel
+        private JButton simulateFamily = new JButton("Simulate");
+        public JButton getSimulateFamily() {
+            return simulateFamily;
         }
 
     public viewApp() {
@@ -189,7 +208,38 @@ public class viewApp {
     }
 
     private void makeSeniorPanel() {
+        seniorPanel.setLayout(new BorderLayout());
 
+        seniorTitle.setFont(new Font("Avenir", Font.PLAIN, 24));
+        seniorStatusLabel.setFont(new Font("Avenir", Font.PLAIN, 18));
+
+        waterPressureLabel.setFont(new Font("Avenir", Font.PLAIN, 16));
+        waterFlowLabel.setFont(new Font("Avenir", Font.PLAIN, 16));
+        voltageLabel.setFont(new Font("Avenir", Font.PLAIN, 16));
+        currentLabel.setFont(new Font("Avenir", Font.PLAIN, 16));
+
+        waterPressureStatus.setEnabled(false);
+        waterFlowStatus.setEnabled(false);
+        voltageStatus.setEnabled(false);
+        currentStatus.setEnabled(false);
+
+        JPanel topSeniorPanel = new JPanel();
+        topSeniorPanel.add(seniorTitle);
+        topSeniorPanel.add(seniorStatusLabel);
+
+        JPanel statusPanel = new JPanel(new GridLayout(4, 2));
+        statusPanel.add(waterPressureLabel);
+        statusPanel.add(waterPressureStatus);
+        statusPanel.add(waterFlowLabel);
+        statusPanel.add(waterFlowStatus);
+        statusPanel.add(voltageLabel);
+        statusPanel.add(voltageStatus);
+        statusPanel.add(currentLabel);
+        statusPanel.add(currentStatus);
+
+        JPanel seniorLowerButtonsPanel = new JPanel();
+        seniorLowerButtonsPanel.add(toFamily, BorderLayout.WEST);
+        seniorLowerButtonsPanel.add(simulateSenior, BorderLayout.EAST);
     }
 
     private void makeFamilyPanel() {
