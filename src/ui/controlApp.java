@@ -5,6 +5,7 @@ import java.awt.event.*;
 import java.io.*;
 import ui.viewApp;
 import data.storage;
+import domain.Alert;
 
 public class controlApp {
 
@@ -76,6 +77,82 @@ public class controlApp {
                     }
                     
                 } catch(IOException exception) {
+                    exception.printStackTrace();
+                }
+            }
+        });
+
+        view.getToFamilyButton().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    view.showFamilyPanel();
+                }   catch(Exception exception) {
+                    exception.printStackTrace();
+                }
+            }
+        });
+
+        view.getToSeniorButton().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    view.showSeniorPanel();
+                } catch(Exception exception) {
+                    exception.printStackTrace();
+                }
+            }
+        });
+
+        view.getSimulateSenior().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+
+                } catch(Exception exception) {
+                    exception.printStackTrace();
+                }
+            }
+        });
+
+        view.getSimulateFamily().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    String type = "";
+                    String sensor;
+                    String severity = "";
+
+                    int sensorType = (int)(Math.random()*4) + 1;
+                    if (sensorType == 1) {
+                        type = "Water Flow Sensor";
+                    }
+                    else if (sensorType == 2) {
+                        type = "Water Pressure Sensor";
+                    }
+                    else if (sensorType == 3) {
+                        type = "Voltage Sensor";
+                    }
+                    else if (sensorType == 4) {
+                        type = "Current Sensor";
+                    }
+
+                    int sensorNum = (int)(Math.random()*3) + 1;
+                    sensor = type + sensorNum;
+
+                    int severityNum = (int)(Math.random()*3) + 1;
+                    if (severityNum == 1) {
+                        severity = "Low";
+                    }
+                    else if (severityNum == 2) {
+                        severity = "Medium";
+                    }
+                    else if (severityNum == 3) {
+                        severity = "High";
+                    }
+    
+                    Alert alert = new Alert(sensor, severity);
+
+                    storeAlert(userId, alert);
+
+
+                } catch(Exception exception) {
                     exception.printStackTrace();
                 }
             }

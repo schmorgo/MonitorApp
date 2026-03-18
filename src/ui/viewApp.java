@@ -78,9 +78,9 @@ public class viewApp {
         private JCheckBox currentStatus = new JCheckBox();
 
         //Switch to Family Button
-        private JButton toFamily = new JButton("Open Family Panel");
-        public JButton getToFamily() {
-            return toFamily;
+        private JButton toFamilyButton = new JButton("Open Family Panel");
+        public JButton getToFamilyButton() {
+            return toFamilyButton;
         }
 
         //Simulate Senior Panel
@@ -95,12 +95,13 @@ public class viewApp {
 
         //Family History
         private JLabel alertHistoryLabel = new JLabel("Alert History");
+        private String[] columns = {"Time", "Sensor", "Severity"};
         private JTable alertHistory = new JTable();
 
         //Switch to Senior Button
-        private JButton toSenior = new JButton("Open Senior Panel");
-        public JButton getToSenior() {
-            return toSenior;
+        private JButton toSeniorButton = new JButton("Open Senior Panel");
+        public JButton getToSeniorButton() {
+            return toSeniorButton;
         }
 
         //Simulate Family Panel
@@ -211,7 +212,7 @@ public class viewApp {
         seniorPanel.setLayout(new BorderLayout());
 
         seniorTitle.setFont(new Font("Avenir", Font.PLAIN, 24));
-        seniorStatusLabel.setFont(new Font("Avenir", Font.PLAIN, 18));
+        seniorStatusLabel.setFont(new Font("Avenir", Font.PLAIN, 24));
 
         waterPressureLabel.setFont(new Font("Avenir", Font.PLAIN, 16));
         waterFlowLabel.setFont(new Font("Avenir", Font.PLAIN, 16));
@@ -227,7 +228,8 @@ public class viewApp {
         topSeniorPanel.add(seniorTitle);
         topSeniorPanel.add(seniorStatusLabel);
 
-        JPanel statusPanel = new JPanel(new GridLayout(4, 2));
+        JPanel statusPanel = new JPanel(new GridLayout(4, 2, 20, 10));
+        JPanel statusPanelHolder = new JPanel();
         statusPanel.add(waterPressureLabel);
         statusPanel.add(waterPressureStatus);
         statusPanel.add(waterFlowLabel);
@@ -237,13 +239,29 @@ public class viewApp {
         statusPanel.add(currentLabel);
         statusPanel.add(currentStatus);
 
-        JPanel seniorLowerButtonsPanel = new JPanel();
-        seniorLowerButtonsPanel.add(toFamily, BorderLayout.WEST);
+        JPanel seniorLowerButtonsPanel = new JPanel(new BorderLayout());
+        seniorLowerButtonsPanel.add(toFamilyButton, BorderLayout.WEST);
         seniorLowerButtonsPanel.add(simulateSenior, BorderLayout.EAST);
+
+        statusPanelHolder.add(statusPanel);
+        seniorPanel.add(topSeniorPanel, BorderLayout.NORTH);
+        seniorPanel.add(statusPanelHolder, BorderLayout.CENTER);
+        seniorPanel.add(seniorLowerButtonsPanel, BorderLayout.SOUTH);
     }
 
     private void makeFamilyPanel() {
+        familyPanel.setLayout(new BorderLayout());
 
+        familyTitle.setFont(new Font("Avenir", Font.PLAIN, 24));
+        alertHistoryLabel.setFont(new Font("Avenir", Font.PLAIN, 24));
+
+
+        JPanel topFamilyPanel = new JPanel();
+
+
+        JPanel alertHistoryPanel = new JPanel();
+
+        JPanel familyLowerButtonsPanel = new JPanel();
     }
 
     public void showLoginPanel() {
@@ -258,5 +276,4 @@ public class viewApp {
     public void showFamilyPanel() {
         cardLayout.show(mainPanel, "Family");
     }
-
 }

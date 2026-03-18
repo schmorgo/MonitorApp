@@ -37,8 +37,6 @@ public class storage {
             }
             return maxId + 1;
         }
-
-
     }
 
     public void storeLogin(String username, char[] password) throws IOException {
