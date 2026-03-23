@@ -1,6 +1,8 @@
 package ui;
 import java.awt.*;
 import javax.swing.*;
+import java.util.*;
+import javax.swing.table.*;
 
 public class viewApp {
 
@@ -73,9 +75,21 @@ public class viewApp {
 
         //Senior Status Statuses
         private JCheckBox waterPressureStatus = new JCheckBox();
+        public JCheckBox getWaterPressureStatus() {
+            return waterPressureStatus;
+        }
         private JCheckBox waterFlowStatus = new JCheckBox();
+        public JCheckBox getWaterFlowStatus() {
+            return waterFlowStatus;
+        }
         private JCheckBox voltageStatus = new JCheckBox();
+        public JCheckBox getVoltageStatus() {
+            return voltageStatus;
+        }
         private JCheckBox currentStatus = new JCheckBox();
+        public JCheckBox getCurrentStatus() {
+            return currentStatus;
+        }
 
         //Switch to Family Button
         private JButton toFamilyButton = new JButton("Open Family Panel");
@@ -97,6 +111,7 @@ public class viewApp {
         private JLabel alertHistoryLabel = new JLabel("Alert History");
         private String[] columns = {"Time", "Sensor", "Severity"};
         private JTable alertHistory = new JTable();
+        JScrollPane scrollAlerts = new JScrollPane(alertHistory);
 
         //Switch to Senior Button
         private JButton toSeniorButton = new JButton("Open Senior Panel");
@@ -251,17 +266,34 @@ public class viewApp {
 
     private void makeFamilyPanel() {
         familyPanel.setLayout(new BorderLayout());
-
         familyTitle.setFont(new Font("Avenir", Font.PLAIN, 24));
         alertHistoryLabel.setFont(new Font("Avenir", Font.PLAIN, 24));
 
-
         JPanel topFamilyPanel = new JPanel();
+        topFamilyPanel.add(familyTitle);
+        topFamilyPanel.add(alertHistoryLabel);
+        
+        JPanel alertHistoryPanel = new JPanel(new BorderLayout());
+        alertHistoryPanel.add(scrollAlerts, BorderLayout.CENTER);
 
+        JPanel familyLowerButtonsPanel = new JPanel(new BorderLayout());
+        familyLowerButtonsPanel.add(toSeniorButton, BorderLayout.WEST);
+        familyLowerButtonsPanel.add(simulateFamily, BorderLayout.EAST);
 
-        JPanel alertHistoryPanel = new JPanel();
+        familyPanel.add(topFamilyPanel, BorderLayout.NORTH);
+        familyPanel.add(alertHistoryPanel, BorderLayout.CENTER);
+        familyPanel.add(familyLowerButtonsPanel, BorderLayout.SOUTH);
+    }
 
-        JPanel familyLowerButtonsPanel = new JPanel();
+    public void loadAlerts(ArrayList<String[]> alertInfo) {
+        String[][] info = new String[alertInfo.size()][3];
+
+        for (int i = 0; i < alertInfo.size(); i++) {
+            info[i] = alertInfo.get(i);
+        }
+
+        alertHistory.setModel(new DefaultTableModel(info, columns));
+
     }
 
     public void showLoginPanel() {

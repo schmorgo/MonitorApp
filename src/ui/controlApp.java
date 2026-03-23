@@ -5,12 +5,14 @@ import java.awt.event.*;
 import java.io.*;
 import ui.viewApp;
 import data.storage;
+import data.alertStorage;
 import domain.Alert;
 
 public class controlApp {
 
     private viewApp view;
     private storage store;
+    private alertStorage alertStore;
     private String enteredUsername;
     private char[] userUsername;
     public char[] getUserUsername() {
@@ -24,10 +26,10 @@ public class controlApp {
         return userPassword;
     }
 
-    public controlApp(viewApp view, storage store) {
+    public controlApp(viewApp view, storage store, alertStorage alertStore) {
         this.view = view;
         this.store = store;
-        
+    
         //Switch to Sign Up Panel
         view.getSignUpButton().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -85,6 +87,8 @@ public class controlApp {
         view.getToFamilyButton().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
+                    int userId = store.checkLogin(enteredUsername, enteredPassword);
+                    view.loadAlerts(alertStore.getAlerts(userId));
                     view.showFamilyPanel();
                 }   catch(Exception exception) {
                     exception.printStackTrace();
@@ -105,6 +109,22 @@ public class controlApp {
         view.getSimulateSenior().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
+                    boolean[] statusBoolean = {false, false, false, false};
+                    
+                    for (int i = 0; i < 4; i++) {
+                        int tempInt = (int)(Math.random()*2);
+                        if (tempInt == 0) {
+                            statusBoolean[i] = false;
+                        }
+                        else if (tempInt == 1) {
+                            statusBoolean[i] = true;
+                        }
+                    }
+                
+                    view.getWaterPressureStatus().setSelected(statusBoolean[0]);
+                    view.getWaterFlowStatus().setSelected(statusBoolean[1]);
+                    view.getVoltageStatus().setSelected(statusBoolean[2]);
+                    view.getCurrentStatus().setSelected(statusBoolean[3]);
 
                 } catch(Exception exception) {
                     exception.printStackTrace();
@@ -148,9 +168,10 @@ public class controlApp {
                     }
     
                     Alert alert = new Alert(sensor, severity);
+                    int userId = store.checkLogin(enteredUsername, enteredPassword);
 
-                    storeAlert(userId, alert);
-
+                    alertStore.storeAlert(userId, alert);
+                    view.loadAlerts(alertStore.getAlerts(userId));
 
                 } catch(Exception exception) {
                     exception.printStackTrace();

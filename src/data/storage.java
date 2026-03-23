@@ -6,6 +6,7 @@ import ui.controlApp;
 public class storage {
 
     private String line;
+    private alertStorage alertStore;
 
     public storage() {
     }
