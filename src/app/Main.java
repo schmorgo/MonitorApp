@@ -11,5 +11,6 @@ public class Main {
         storage store = new storage();
         alertStorage alertStore = new alertStorage();
         new controlApp(view, store, alertStore);
+        System.out.println(System.getProperty("user.dir"));
     }
 }

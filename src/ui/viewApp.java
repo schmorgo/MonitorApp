@@ -33,7 +33,8 @@ public class viewApp {
         public JButton getEnterButton() {
             return enterButton;
         }
-
+        
+        //Sign Up Button
         private JButton signUpButton = new JButton("Sign Up");
         public JButton getSignUpButton() {
             return signUpButton;
@@ -51,12 +52,13 @@ public class viewApp {
         private JLabel newPasswordLabel = new JLabel("New Password:");
         public JPasswordField newPasswordInput = new JPasswordField();
 
-        //Signup Buttons
+        //Enter New Account Button
         private JButton newEnterButton = new JButton("Enter");
         public JButton getNewEnterButton() {
             return newEnterButton;
         }
 
+        //Return to Login Panel Button
         private JButton returnButton = new JButton("Return to Login");
         public JButton getReturnButton() {
             return returnButton;
@@ -132,47 +134,50 @@ public class viewApp {
         mainFrame.add(mainPanel);
         mainFrame.setLocationRelativeTo(null);
 
+        //Make the panels
         makeLoginPanel();
         makeSignUpPanel();
         makeSeniorPanel();
         makeFamilyPanel();
 
+        //Add the panels to the main panel
         mainPanel.add(loginPanel, "Login");
         mainPanel.add(signUpPanel, "SignUp");
         mainPanel.add(seniorPanel, "Senior");
         mainPanel.add(familyPanel, "Family");
 
+        //Show frame
         mainFrame.setVisible(true);
     }
 
     private void makeLoginPanel() {
-        // Login Panel Stuff
+        // Build Login 
         loginPanel.setLayout(new BoxLayout(loginPanel, BoxLayout.Y_AXIS));
         loginPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
         loginTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
         loginTitle.setFont(new Font("Avenir", Font.BOLD, 24));
 
-        //Username
+        //Build Username Text Field
         usernameInput.setMaximumSize(new Dimension(500, 40));
         usernameInput.setAlignmentX(Component.CENTER_ALIGNMENT);
         usernameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         usernameLabel.setFont(new Font("Avenir", Font.PLAIN, 16));
 
-        //Password
+        //Build Password password field
         passwordInput.setMaximumSize(new Dimension(500, 40));
         passwordInput.setAlignmentX(Component.CENTER_ALIGNMENT);
         passwordLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         passwordLabel.setFont(new Font("Avenir", Font.PLAIN, 16));
 
-        // Enter
+        // Build Enter Button
         enterButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         enterButton.setFont(new Font("Geneva", Font.BOLD, 14));
 
-        // Sign Up
+        // Build Sign Up Button
         signUpButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         signUpButton.setFont(new Font("Geneva", Font.BOLD, 14));
 
-        // Build
+        // Build the Login Panel
         loginPanel.add(Box.createVerticalGlue());
         loginPanel.add(loginTitle);
         loginPanel.add(usernameLabel);
@@ -186,30 +191,35 @@ public class viewApp {
         loginPanel.add(Box.createVerticalGlue());
     }
 
+    //Build the Sign Up Panel
     private void makeSignUpPanel() {
-        // Sign Up Panel Stuff
+        // Build Sign Up Panel
         signUpPanel.setLayout(new BoxLayout(signUpPanel, BoxLayout.Y_AXIS));
         signUpPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
         signUpTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
         signUpTitle.setFont(new Font("Avenir", Font.BOLD, 24));
 
+        //Build New Username Text Field
         newUsernameInput.setMaximumSize(new Dimension(500, 40));
         newUsernameInput.setAlignmentX(Component.CENTER_ALIGNMENT);
         newUsernameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         newUsernameLabel.setFont(new Font("Avenir", Font.PLAIN, 16));
 
+        //Build New Password password field
         newPasswordInput.setMaximumSize(new Dimension(500, 40));
         newPasswordInput.setAlignmentX(Component.CENTER_ALIGNMENT);
         newPasswordLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         newPasswordLabel.setFont(new Font("Avenir", Font.PLAIN, 16));
 
+        // Build Enter New Account Button
         newEnterButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         newEnterButton.setFont(new Font("Geneva", Font.BOLD, 14));
 
+        // Build Return to Login Button
         returnButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         returnButton.setFont(new Font("Geneva", Font.BOLD, 14));
 
-        //Build
+        // Build the Sign Up Panel
         signUpPanel.add(Box.createVerticalGlue());
         signUpPanel.add(signUpTitle);
         signUpPanel.add(newUsernameLabel);
@@ -223,26 +233,32 @@ public class viewApp {
         signUpPanel.add(Box.createVerticalGlue());
     }
 
+    //Build the Senior Panel
     private void makeSeniorPanel() {
         seniorPanel.setLayout(new BorderLayout());
 
+        //Build Senior Panel
         seniorTitle.setFont(new Font("Avenir", Font.PLAIN, 24));
         seniorStatusLabel.setFont(new Font("Avenir", Font.PLAIN, 24));
 
+        //Build Senior Status Labels and Statuses
         waterPressureLabel.setFont(new Font("Avenir", Font.PLAIN, 16));
         waterFlowLabel.setFont(new Font("Avenir", Font.PLAIN, 16));
         voltageLabel.setFont(new Font("Avenir", Font.PLAIN, 16));
         currentLabel.setFont(new Font("Avenir", Font.PLAIN, 16));
 
+        //Set the checkboxes to be unclickable because users should not be able to edit the status of sensors
         waterPressureStatus.setEnabled(false);
         waterFlowStatus.setEnabled(false);
         voltageStatus.setEnabled(false);
         currentStatus.setEnabled(false);
 
+        //Build the top part of the senior panel with title and the label
         JPanel topSeniorPanel = new JPanel();
         topSeniorPanel.add(seniorTitle);
         topSeniorPanel.add(seniorStatusLabel);
 
+        //Build the middle part of the senior panel with the sensor status labels and their checkbox statuses
         JPanel statusPanel = new JPanel(new GridLayout(4, 2, 20, 10));
         JPanel statusPanelHolder = new JPanel();
         statusPanel.add(waterPressureLabel);
@@ -254,17 +270,21 @@ public class viewApp {
         statusPanel.add(currentLabel);
         statusPanel.add(currentStatus);
 
+        //Build the bottom part of the senior panel with the buttons to switch to family panel and simulate the sensor statuses
         JPanel seniorLowerButtonsPanel = new JPanel(new BorderLayout());
         seniorLowerButtonsPanel.add(toFamilyButton, BorderLayout.WEST);
         seniorLowerButtonsPanel.add(simulateSenior, BorderLayout.EAST);
 
+        //Add the three sub-panels to the senior panel
         statusPanelHolder.add(statusPanel);
         seniorPanel.add(topSeniorPanel, BorderLayout.NORTH);
         seniorPanel.add(statusPanelHolder, BorderLayout.CENTER);
         seniorPanel.add(seniorLowerButtonsPanel, BorderLayout.SOUTH);
     }
 
+    //Build the Family Panel
     private void makeFamilyPanel() {
+        //Build the family panel
         familyPanel.setLayout(new BorderLayout());
         familyTitle.setFont(new Font("Avenir", Font.PLAIN, 24));
         alertHistoryLabel.setFont(new Font("Avenir", Font.PLAIN, 24));

@@ -13,15 +13,25 @@ public class alertStorage {
     }
 
     public void storeAlert(int userId, Alert alert) throws IOException {
-        try(FileWriter writer = new FileWriter("alertHistory.txt", true)) {
+        File file = new File("alertHistory.txt");
+        if (!file.exists()) {
+            file.createNewFile();
+        }
+
+        try(FileWriter writer = new FileWriter(file, true)) {
             writer.write(userId + "|" + alert.getTime() + "|" + alert.getSensor() + "|" + alert.getSeverity() + "\n");
         }
     }
 
     public ArrayList<String[]> getAlerts(int userId) throws IOException {
         ArrayList<String[]> alertInfo = new ArrayList<String[]>();
+        File file = new File("alertHistory.txt");
+
+        if (!file.exists()) {
+            file.createNewFile();
+        }
         
-        try (BufferedReader br = new BufferedReader(new FileReader("alertHistory.txt"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             while ((line = br.readLine()) != null) {
 
                 if (line.trim().isEmpty()) {
@@ -42,15 +52,17 @@ public class alertStorage {
                         String sensor = parts[2];
                         String severity = parts[3];
                         
+                        br.close();
                         alertInfo.add(new String[]{time, sensor, severity});
                     }
                 } catch (Exception exception) {
                     exception.printStackTrace();
                 }
             }
+            
         }
+        
         return alertInfo;
     }
-
 
 }

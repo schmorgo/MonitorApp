@@ -1,7 +1,17 @@
 package domain;
 import java.time.*;
 
-public class Alert {
+public abstract class Alert {
+    private double baseline;
+    public double getBaseline() {
+        return baseline;
+    }
+
+    private double reading;
+    public double getReading() {
+        return reading;
+    }
+
     private LocalDateTime time;
     public LocalDateTime getTime() {
         return time;
@@ -16,10 +26,18 @@ public class Alert {
     public String getSeverity() {
         return severity;
     }
+    public void setSeverity(String severity) {
+        this.severity = severity;
+    }
 
-    public Alert(String sensor, String severity) {
+    public abstract void findSeverity();
+
+    public Alert(String sensor, String severity, double baseline, double reading) {
         this.time = LocalDateTime.now();
         this.sensor = sensor;
         this.severity = severity;
+        this.baseline = baseline;
+        this.reading = reading;
     }
+
 }
