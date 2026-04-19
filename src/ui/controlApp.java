@@ -74,6 +74,12 @@ public class controlApp {
                 //Store new username and password
                 try {
                     controlApp.this.store.storeLogin(enteredUsername, enteredPassword);
+                    //Show success message and clear textfields
+                    JOptionPane.showMessageDialog(
+                        view.getMainFrame(), "Sign Up Successful", "Sign Up Successful", JOptionPane.INFORMATION_MESSAGE
+                    );
+                    view.newUsernameInput.setText("");
+                    view.newPasswordInput.setText("");
                 } 
                 catch (IOException exception) {
                     exception.printStackTrace();
