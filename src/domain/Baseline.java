@@ -1,10 +1,12 @@
 package domain;
 
 public class Baseline {
+    //UserId for baseline
     private int userId;
     public int getUserId() {
         return userId;
     }
+    //Baselines for each sensor
     private double waterFlowBaseline;
     public double getWaterFlowBaseline() {
         return waterFlowBaseline;
@@ -22,6 +24,7 @@ public class Baseline {
         return voltageBaseline;
     }
 
+    //Constructor
     public Baseline(int userId, double waterFlowBaseline, double waterPressureBaseline, double voltageBaseline, double currentBaseline) {
         this.userId = userId;
         this.waterFlowBaseline = waterFlowBaseline;

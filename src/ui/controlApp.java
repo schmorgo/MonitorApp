@@ -101,6 +101,12 @@ public class controlApp {
                         }
                         view.showSeniorPanel();
                     }
+                    //If there is not a match, show error message
+                    else {
+                        JOptionPane.showMessageDialog(
+                            view.getMainFrame(), "Login Failed", "Login Failed", JOptionPane.ERROR_MESSAGE
+                        );
+                    }
                     
                 } catch(IOException exception) {
                     exception.printStackTrace();
