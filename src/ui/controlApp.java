@@ -76,7 +76,7 @@ public class controlApp {
                     controlApp.this.store.storeLogin(enteredUsername, enteredPassword);
                     //Show success message and clear textfields
                     JOptionPane.showMessageDialog(
-                        view.getMainFrame(), "Sign Up Successful", "Sign Up Successful", JOptionPane.INFORMATION_MESSAGE
+                        view.getMainFrame(), "Sign Up Successful", "Sign Up Successful", JOptionPane.ERROR_MESSAGE
                     );
                     view.newUsernameInput.setText("");
                     view.newPasswordInput.setText("");
@@ -149,38 +149,10 @@ public class controlApp {
         view.getSimulateSenior().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
-                    //Assume that the sensors are false and therefore not on.
-                    boolean[] statusBoolean = {false, false, false, false};
-                    
-                    //Randomly generate booleans for each sensor type. 
-                    for (int i = 0; i < 4; i++) {
-                        int tempInt = (int)(Math.random()*2);
-                        if (tempInt == 0) {
-                            statusBoolean[i] = false;
-                        }
-                        else if (tempInt == 1) {
-                            statusBoolean[i] = true;
-                        }
-                    }
-                
-                    //Change the checkboxes that correspond to each sensor type with the generated booleans
-                    view.getWaterPressureStatus().setSelected(statusBoolean[0]);
-                    view.getWaterFlowStatus().setSelected(statusBoolean[1]);
-                    view.getVoltageStatus().setSelected(statusBoolean[2]);
-                    view.getCurrentStatus().setSelected(statusBoolean[3]);
-
-                } catch(Exception exception) {
-                    exception.printStackTrace();
-                }
-            }
-        });
-
-        view.getSimulateFamily().addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                try {
+                    //Simulate sensor statuses
                     String type = "";
-                    String sensor;
 
+                    //Randomly select a sensor type to simulate
                     int sensorType = (int)(Math.random()*4) + 1;
                     if (sensorType == 1) {
                         type = "Water Flow Sensor";
@@ -195,8 +167,213 @@ public class controlApp {
                         type = "Current Sensor";
                     }
 
-                    int sensorNum = (int)(Math.random()*3) + 1;
-                    sensor = type + " " + sensorNum;
+                    //If the user has not logged in, do not simulate
+                    int userId = store.checkLogin(enteredUsername, enteredPassword);
+                    Baseline userBaseline = baselineStore.getBaseline(userId);
+                    if (userBaseline == null) {
+                        userBaseline = baselineStore.makeBaseline(userId);
+                        baselineStore.storeBaseline(userBaseline);
+                    }
+                    double baseline = 0;
+                    double reading = 0;
+                    Alert alert;
+                    double stdev = 0;
+                    double deviation = 0;
+                    double deviationDirection = 0;
+                    int severityNum = (int)(Math.random()*4);
+                    
+                    //Water Flow Math
+                    if (sensorType == 1) {
+                        //Randomly select direction of deviation
+                        if (Math.random() < 0.5) {
+                            deviationDirection = -1;
+                        }
+                        else {
+                            deviationDirection = 1;
+                        }
+
+                        //Get waterflow baseline for the user and find stdev
+                        //Only for water flow, stdev has minimum value of 0.2 to ensure there is significant deviation
+                        baseline = userBaseline.getWaterFlowBaseline();
+                        stdev = baseline * 0.2;
+                        if (stdev < 0.2) {
+                            stdev = 0.2;
+                        }
+
+                        //Find severity based on deviations set for the sensor type - Water Flow
+                        if (severityNum == 0) {
+                            deviation = Math.random() * 1.49 * stdev;
+                        }
+                        else if (severityNum == 1) {
+                            deviation = (1.5 + Math.random() * 0.99) * stdev;
+                        }
+                        else if (severityNum == 2) {
+                            deviation = (2.5 + Math.random() * 0.99) * stdev;
+                        }
+                        else {
+                            deviation = (3.5 + Math.random()) * stdev;
+                        }
+                        
+                        //Calculate reading and ensure it is not negative
+                        reading = baseline + deviationDirection * deviation;
+                        if (reading < 0) {
+                            reading = 0;
+                        }
+                        alert = new waterFlowAlert("Water Flow", baseline, reading);
+                    }
+
+                    //Water Pressure Math
+                    else if (sensorType == 2) {
+                        //Randomly select direction of deviation
+                        if (Math.random() < 0.5) {
+                            deviationDirection = -1;
+                        }
+                        else {
+                            deviationDirection = 1;
+                        }
+                        //Get water pressure baseline for the user and find stdev
+                        baseline = userBaseline.getWaterPressureBaseline();
+                        stdev = baseline * 0.15;
+
+                        //Find severity based on deviations set for the sensor type - Water Pressure
+                        if (severityNum == 0) {
+                            deviation = Math.random() * 0.99 * stdev;
+                        }
+                        else if (severityNum == 1) {
+                            deviation = (1 + Math.random() * 0.99) * stdev;
+                        }
+                        else if (severityNum == 2) {
+                            deviation = (2 + Math.random() * 0.99) * stdev;
+                        }
+                        else {
+                            deviation = (3 + Math.random()) * stdev;
+                        }
+
+                        //Calculate reading and ensure it is not negative
+                        reading = baseline + deviationDirection * deviation;
+                        if (reading < 0) {
+                            reading = 0;
+                        }
+                        alert = new waterPressureAlert("Water Pressure", baseline, reading);
+                    }
+                    
+                    //Voltage
+                    else if (sensorType == 3) {
+                        //Randomly select direction of deviation
+                        if (Math.random() < 0.5) {
+                            deviationDirection = -1;
+                        }
+                        else {
+                            deviationDirection = 1;
+                        }
+                        //Get voltage baseline for the user and find stdev
+                        baseline = userBaseline.getVoltageBaseline();
+                        stdev = baseline * 0.05;
+
+                        //Find severity based on deviations set for the sensor type - Voltage
+                        if (severityNum == 0) {
+                            deviation = Math.random() * 0.74 * stdev;
+                        }
+                        else if (severityNum == 1) {
+                            deviation = (0.75 + Math.random() * 0.74) * stdev;
+                        }
+                        else if (severityNum == 2) {
+                            deviation = (1.5 + Math.random() * 0.99) * stdev;
+                        }
+                        else {
+                            deviation = (2.5 + Math.random()) * stdev;
+                        }
+
+                        //Calculate reading and ensure it is not negative
+                        reading = baseline + deviationDirection * deviation;
+                        if (reading < 0) {
+                            reading = 0;
+                        }
+                        alert = new voltageAlert("Voltage", baseline, reading);
+                    }
+
+                    //Current
+                    else {
+                        //Randomly select direction of deviation
+                        if (Math.random() < 0.5) {
+                            deviationDirection = -1;
+                        }
+                        else {
+                            deviationDirection = 1;
+                        }
+                        //Get current baseline for the user and find stdev
+                        baseline = userBaseline.getCurrentBaseline();
+                        stdev = baseline * 0.1;
+
+                        //Find severity based on deviations set for the sensor type - Current
+                        if (severityNum == 0) {
+                            deviation = Math.random() * 0.49 * stdev;
+                        }
+                        else if (severityNum == 1) {
+                            deviation = (0.5 + Math.random() * 0.49) * stdev;
+                        }
+                        else if (severityNum == 2) {
+                            deviation = (1 + Math.random() * 0.99) * stdev;
+                        }
+                        else {
+                            deviation = (2 + Math.random()) * stdev;
+                        }
+
+                        //Calculate reading and ensure it is not negative
+                        reading = baseline + deviationDirection * deviation;
+                        if (reading < 0) {
+                            reading = 0;
+                        }
+                        alert = new currentAlert("Current", baseline, reading);
+                    }
+
+                    
+                    //Assume all sensors are normal
+                    view.getWaterPressureStatus().setSelected(false);
+                    view.getWaterFlowStatus().setSelected(false);
+                    view.getVoltageStatus().setSelected(false);
+                    view.getCurrentStatus().setSelected(false);
+
+                    //
+                    if (alert.getSeverity().equals("NORMAL")) {
+                        if (sensorType == 1) {
+                            view.getWaterFlowStatus().setSelected(true);
+                        }
+                        else if (sensorType == 2) {
+                            view.getWaterPressureStatus().setSelected(true);
+                        }
+                        else if (sensorType == 3) {
+                            view.getVoltageStatus().setSelected(true);
+                        }
+                        else if (sensorType == 4) {
+                            view.getCurrentStatus().setSelected(true);
+                        }
+                    }
+
+                } catch(Exception exception) {
+                    exception.printStackTrace();
+                }
+            }
+        });
+
+        view.getSimulateFamily().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    String type = "";
+
+                    int sensorType = (int)(Math.random()*4) + 1;
+                    if (sensorType == 1) {
+                        type = "Water Flow Sensor";
+                    }
+                    else if (sensorType == 2) {
+                        type = "Water Pressure Sensor";
+                    }
+                    else if (sensorType == 3) {
+                        type = "Voltage Sensor";
+                    }
+                    else {
+                        type = "Current Sensor";
+                    }
     
                     int userId = store.checkLogin(enteredUsername, enteredPassword);
                     Baseline userBaseline = baselineStore.getBaseline(userId);
@@ -245,7 +422,7 @@ public class controlApp {
                         if (reading < 0) {
                             reading = 0;
                         }
-                        alert = new waterFlowAlert("", baseline, reading);
+                        alert = new waterFlowAlert("Water Flow", baseline, reading);
                     }
 
                     //Water Pressure
@@ -276,7 +453,7 @@ public class controlApp {
                         if (reading < 0) {
                             reading = 0;
                         }
-                        alert = new waterPressureAlert("", baseline, reading);
+                        alert = new waterPressureAlert("Water Pressure", baseline, reading);
                     }
                     
                     //Voltage
@@ -307,7 +484,7 @@ public class controlApp {
                         if (reading < 0) {
                             reading = 0;
                         }
-                        alert = new voltageAlert("", baseline, reading);
+                        alert = new voltageAlert("Voltage", baseline, reading);
                     }
 
                     //Current
@@ -338,7 +515,7 @@ public class controlApp {
                         if (reading < 0) {
                             reading = 0;
                         }
-                        alert = new currentAlert("", baseline, reading);
+                        alert = new currentAlert("Current", baseline, reading);
                     }
 
                     alertStore.storeAlert(userId, alert);
