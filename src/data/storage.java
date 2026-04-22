@@ -1,14 +1,14 @@
 package data;
 import java.io.*;
-import ui.viewApp;
-import ui.controlApp;
+import ui.ViewApp;
+import ui.ControlApp;
 
-public class storage {
+public class Storage {
 
     private String line;
-    private alertStorage alertStore;
+    private AlertStorage alertStore;
 
-    public storage() {
+    public Storage() {
     }
 
     //Get new userId when user signs up

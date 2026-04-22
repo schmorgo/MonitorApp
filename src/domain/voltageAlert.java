@@ -1,9 +1,9 @@
 package domain;
 
-public class voltageAlert extends Alert{
+public class VoltageAlert extends Alert{
 
     //Constructor
-    public voltageAlert(String severity, double baseline, double reading) {
+    public VoltageAlert(String severity, double baseline, double reading) {
         super("Voltage", severity, baseline, reading);
         findSeverity();
     }

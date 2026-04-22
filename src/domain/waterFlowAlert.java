@@ -1,9 +1,9 @@
 package domain;
 
-public class waterFlowAlert extends Alert{
+public class WaterFlowAlert extends Alert{
 
     //Constructor
-    public waterFlowAlert(String severity, double baseline, double reading) {
+    public WaterFlowAlert(String severity, double baseline, double reading) {
         super("Water Flow", severity, baseline, reading);
         findSeverity();
     }

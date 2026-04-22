@@ -1,15 +1,15 @@
 package data;
 import java.io.*;
 import java.util.*;
-import ui.viewApp;
-import ui.controlApp;
+import ui.ViewApp;
+import ui.ControlApp;
 import domain.Alert;
 
-public class alertStorage {
+public class AlertStorage {
     private String line;
 
     // Constructor
-    public alertStorage() {
+    public AlertStorage() {
     }
 
     // Store alert in a file - alertHistory.txt

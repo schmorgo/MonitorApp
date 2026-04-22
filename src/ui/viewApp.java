@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.util.*;
 import javax.swing.table.*;
 
-public class viewApp {
+public class ViewApp {
 
     //Frame
     private JFrame mainFrame = new JFrame("App");
@@ -127,7 +127,7 @@ public class viewApp {
             return simulateFamily;
         }
 
-    public viewApp() {
+    public ViewApp() {
         // Main Frame
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setSize(550, 750);

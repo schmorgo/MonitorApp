@@ -1,9 +1,9 @@
 package domain;
 
-public class currentAlert extends Alert{
+public class CurrentAlert extends Alert{
 
     //Constructor
-    public currentAlert(String severity, double baseline, double reading) {
+    public CurrentAlert(String severity, double baseline, double reading) {
         super("Current", severity, baseline, reading);
         findSeverity();
     }  

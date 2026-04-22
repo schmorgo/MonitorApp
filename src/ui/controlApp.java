@@ -3,24 +3,24 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
-import ui.viewApp;
-import data.storage;
-import data.alertStorage;
+import ui.ViewApp;
+import data.Storage;
+import data.AlertStorage;
 import domain.Alert;
-import domain.currentAlert;
-import domain.voltageAlert;
-import domain.waterFlowAlert;
-import domain.waterPressureAlert;
+import domain.CurrentAlert;
+import domain.VoltageAlert;
+import domain.WaterFlowAlert;
+import domain.WaterPressureAlert;
 import domain.Baseline;
 import domain.BaselineStorage;
 
 // controlApp holds all the methods that allow the user to interact with the app
-public class controlApp {
+public class ControlApp {
 
     //Declare view objects, storage objects, and variables for input
-    private viewApp view;
-    private storage store;
-    private alertStorage alertStore;
+    private ViewApp view;
+    private Storage store;
+    private AlertStorage alertStore;
     private BaselineStorage baselineStore;
     private String enteredUsername;
     private char[] userUsername;
@@ -36,7 +36,7 @@ public class controlApp {
     }
 
     //Constructor for controlApp
-    public controlApp(viewApp view, storage store, alertStorage alertStore, BaselineStorage baselineStore) {
+    public ControlApp(ViewApp view, Storage store, AlertStorage alertStore, BaselineStorage baselineStore) {
         this.view = view;
         this.store = store;
         this.alertStore = alertStore;
@@ -73,10 +73,10 @@ public class controlApp {
                 }
                 //Store new username and password
                 try {
-                    controlApp.this.store.storeLogin(enteredUsername, enteredPassword);
+                    ControlApp.this.store.storeLogin(enteredUsername, enteredPassword);
                     //Show success message and clear textfields
                     JOptionPane.showMessageDialog(
-                        view.getMainFrame(), "Sign Up Successful", "Sign Up Successful", JOptionPane.ERROR_MESSAGE
+                        view.getMainFrame(), "Sign Up Successful", "Sign Up Successful", JOptionPane.INFORMATION_MESSAGE
                     );
                     view.newUsernameInput.setText("");
                     view.newPasswordInput.setText("");
@@ -219,7 +219,7 @@ public class controlApp {
                         if (reading < 0) {
                             reading = 0;
                         }
-                        alert = new waterFlowAlert("Water Flow", baseline, reading);
+                        alert = new WaterFlowAlert("Water Flow", baseline, reading);
                     }
 
                     //Water Pressure Math
@@ -254,7 +254,7 @@ public class controlApp {
                         if (reading < 0) {
                             reading = 0;
                         }
-                        alert = new waterPressureAlert("Water Pressure", baseline, reading);
+                        alert = new WaterPressureAlert("Water Pressure", baseline, reading);
                     }
                     
                     //Voltage
@@ -289,7 +289,7 @@ public class controlApp {
                         if (reading < 0) {
                             reading = 0;
                         }
-                        alert = new voltageAlert("Voltage", baseline, reading);
+                        alert = new VoltageAlert("Voltage", baseline, reading);
                     }
 
                     //Current
@@ -324,7 +324,7 @@ public class controlApp {
                         if (reading < 0) {
                             reading = 0;
                         }
-                        alert = new currentAlert("Current", baseline, reading);
+                        alert = new CurrentAlert("Current", baseline, reading);
                     }
 
                     
@@ -422,7 +422,7 @@ public class controlApp {
                         if (reading < 0) {
                             reading = 0;
                         }
-                        alert = new waterFlowAlert("Water Flow", baseline, reading);
+                        alert = new WaterFlowAlert("Water Flow", baseline, reading);
                     }
 
                     //Water Pressure
@@ -453,7 +453,7 @@ public class controlApp {
                         if (reading < 0) {
                             reading = 0;
                         }
-                        alert = new waterPressureAlert("Water Pressure", baseline, reading);
+                        alert = new WaterPressureAlert("Water Pressure", baseline, reading);
                     }
                     
                     //Voltage
@@ -484,7 +484,7 @@ public class controlApp {
                         if (reading < 0) {
                             reading = 0;
                         }
-                        alert = new voltageAlert("Voltage", baseline, reading);
+                        alert = new VoltageAlert("Voltage", baseline, reading);
                     }
 
                     //Current
@@ -515,7 +515,7 @@ public class controlApp {
                         if (reading < 0) {
                             reading = 0;
                         }
-                        alert = new currentAlert("Current", baseline, reading);
+                        alert = new CurrentAlert("Current", baseline, reading);
                     }
 
                     alertStore.storeAlert(userId, alert);
