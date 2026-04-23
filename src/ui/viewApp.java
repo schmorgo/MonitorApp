@@ -311,9 +311,14 @@ public class ViewApp {
         for (int i = 0; i < alertInfo.size(); i++) {
             info[i] = alertInfo.get(i);
         }
+        DefaultTableModel tableModel = new DefaultTableModel(info, columns) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Make all cells non-editable
+            }
+        };
 
-        alertHistory.setModel(new DefaultTableModel(info, columns));
-
+        alertHistory.setModel(tableModel);
     }
 
     public void showLoginPanel() {
