@@ -105,4 +105,38 @@ public class Storage {
         }
         return -1;
     }
+
+    //Check if the input username already exists in login.txt when user tries to sign up
+    public boolean usernameExists(String username) throws IOException {
+        File file = new File("login.txt");
+
+        //Check if login.txt exists. If no, create it.
+        //Assume username duplicate is false because new file means no users.
+        if (!file.exists()) {
+            file.createNewFile();
+            return false;
+        }
+
+        //Read login.txt line by line to check if the input username already exists in the file.
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                if (line.trim().isEmpty()) {
+                    continue;
+                }
+
+                String[] half = line.split("\\|", 3);
+
+                if (half.length != 3) {
+                    continue;
+                }
+
+                if (half[1].equals(username)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

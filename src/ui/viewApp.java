@@ -289,38 +289,49 @@ public class ViewApp {
         familyTitle.setFont(new Font("Avenir", Font.PLAIN, 24));
         alertHistoryLabel.setFont(new Font("Avenir", Font.PLAIN, 24));
 
+        //Build the alert history table
+        //Build top part of the family panel with the title and alert history label
         JPanel topFamilyPanel = new JPanel();
         topFamilyPanel.add(familyTitle);
         topFamilyPanel.add(alertHistoryLabel);
         
+        //Build the middle part of the family panel with the alert history table
         JPanel alertHistoryPanel = new JPanel(new BorderLayout());
         alertHistoryPanel.add(scrollAlerts, BorderLayout.CENTER);
 
+        //Build the bottom part of the family panel with the buttons to switch to senior panel and simulate the alert history
         JPanel familyLowerButtonsPanel = new JPanel(new BorderLayout());
         familyLowerButtonsPanel.add(toSeniorButton, BorderLayout.WEST);
         familyLowerButtonsPanel.add(simulateFamily, BorderLayout.EAST);
 
+        //Add the three sub-panels to the family panel
         familyPanel.add(topFamilyPanel, BorderLayout.NORTH);
         familyPanel.add(alertHistoryPanel, BorderLayout.CENTER);
         familyPanel.add(familyLowerButtonsPanel, BorderLayout.SOUTH);
     }
 
+    //Load the alerts from a user into the alert history jtable
     public void loadAlerts(ArrayList<String[]> alertInfo) {
+        //Turn the alert information into 2D array to fit into jtable
         String[][] info = new String[alertInfo.size()][3];
 
+        //Fill the 2D array with the alert information
         for (int i = 0; i < alertInfo.size(); i++) {
             info[i] = alertInfo.get(i);
         }
+        
+        //Make the cells uneditable
         DefaultTableModel tableModel = new DefaultTableModel(info, columns) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; // Make all cells non-editable
+                return false; 
             }
         };
 
         alertHistory.setModel(tableModel);
     }
 
+    //Methods to switch panels
     public void showLoginPanel() {
         cardLayout.show(mainPanel, "Login");
     }

@@ -73,6 +73,15 @@ public class ControlApp {
                 }
                 //Store new username and password
                 try {
+                    //Check if username already exists.
+                    //If it does, tell user and do not store
+                    if (store.usernameExists(enteredUsername)) {
+                        JOptionPane.showMessageDialog(
+                            view.getMainFrame(), "Username already exists", "Sign Up Failed", JOptionPane.ERROR_MESSAGE
+                        );
+                        return;
+                    }
+
                     ControlApp.this.store.storeLogin(enteredUsername, enteredPassword);
                     //Show success message and clear textfields
                     JOptionPane.showMessageDialog(
@@ -145,7 +154,7 @@ public class ControlApp {
             }
         });
 
-        //Simulate the statuses of the sensors for the senior panel usin randomly generated booleans.
+        //Simulate the statuses of the sensors for the senior panel using randomly generated booleans.
         view.getSimulateSenior().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
@@ -328,13 +337,13 @@ public class ControlApp {
                     }
 
                     
-                    //Assume all sensors are normal
+                    //Assume all sensors are not normal
                     view.getWaterPressureStatus().setSelected(false);
                     view.getWaterFlowStatus().setSelected(false);
                     view.getVoltageStatus().setSelected(false);
                     view.getCurrentStatus().setSelected(false);
 
-                    //
+                    //If the sensor type is deemed normal, checkmark the checkbox for that sensor type
                     if (alert.getSeverity().equals("NORMAL")) {
                         if (sensorType == 1) {
                             view.getWaterFlowStatus().setSelected(true);
@@ -356,11 +365,13 @@ public class ControlApp {
             }
         });
 
+        //Simulate the statuses of the sensors for the family panel using randomly generated booleans.
         view.getSimulateFamily().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
                     String type = "";
 
+                    //Randomly select a sensor type to simulate
                     int sensorType = (int)(Math.random()*4) + 1;
                     if (sensorType == 1) {
                         type = "Water Flow Sensor";
@@ -375,6 +386,7 @@ public class ControlApp {
                         type = "Current Sensor";
                     }
     
+                    //If the user has not logged in, do not simulate
                     int userId = store.checkLogin(enteredUsername, enteredPassword);
                     Baseline userBaseline = baselineStore.getBaseline(userId);
                     if (userBaseline == null) {
@@ -389,7 +401,8 @@ public class ControlApp {
                     double deviationDirection = 0;
                     int severityNum = (int)(Math.random()*4);
                     
-                    //Water Flow
+                    //Water Flow math, same as senior panel
+                    //However, it also stores the information as an alert to show in the alert history table
                     if (sensorType == 1) {
                         if (Math.random() < 0.5) {
                             deviationDirection = -1;
@@ -425,7 +438,8 @@ public class ControlApp {
                         alert = new WaterFlowAlert("Water Flow", baseline, reading);
                     }
 
-                    //Water Pressure
+                    //Water Pressure math, same as senior panel
+                    //However, it also stores the information as an alert to show in the alert history table
                     else if (sensorType == 2) {
                         if (Math.random() < 0.5) {
                             deviationDirection = -1;
@@ -456,7 +470,8 @@ public class ControlApp {
                         alert = new WaterPressureAlert("Water Pressure", baseline, reading);
                     }
                     
-                    //Voltage
+                    //Voltage math, same as senior panel
+                    //However, it also stores the information as an alert to show in the alert history table
                     else if (sensorType == 3) {
                         if (Math.random() < 0.5) {
                             deviationDirection = -1;
@@ -487,7 +502,8 @@ public class ControlApp {
                         alert = new VoltageAlert("Voltage", baseline, reading);
                     }
 
-                    //Current
+                    //Current math, same as senior panel
+                    //However, it also stores the information as an alert to show in the alert history table
                     else {
                         if (Math.random() < 0.5) {
                             deviationDirection = -1;
@@ -521,6 +537,7 @@ public class ControlApp {
                     alertStore.storeAlert(userId, alert);
                     view.loadAlerts(alertStore.getAlerts(userId));
                     
+                    //If the alert is not normal, show a warning message pop-up with the alert information
                     if (!alert.getSeverity().equals("NORMAL")) {
                         JOptionPane.showMessageDialog(
                             null, 
